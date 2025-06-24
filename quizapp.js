@@ -113,15 +113,7 @@ function endQuiz() {
   localStorage.setItem("quizScore", score);
   window.location.href = "result.html";
 }
-if (selected === correctAnswer) {
-  button.classList.add("correct");
-} else {
-  button.classList.add("wrong");
-}
 
-if (selected === correctAnswer) {
-  confetti({ particleCount: 50, spread: 40, origin: { y: 0.4 } });
-}
 function updateProgress() {
   const percent = (currentQuestion / questions.length) * 100;
   document.getElementById("progress").style.width = `${percent}%`;
