@@ -1,27 +1,30 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
+const express = require("express");
+const path = require("path");
+const fs = require("fs");
 
 const app = express();
 const port = 3000;
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, "public")));
 
-app.get('/api/questions', (req, res) => {
-  fs.readFile(path.join(__dirname, 'questions.json'), 'utf8', (err, data) => {
-    if (err) {
-      console.error("Failed to read questions.json", err);
-      return res.status(500).send("Failed to load questions");
-    }
+app.get("/questions", (req, res) => {
+  const filePath = path.join(__dirname, "questions.json");
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "Failed to load quiz questions" });
+
     const allQuestions = JSON.parse(data);
-    const shuffled = allQuestions.sort(() => 0.5 - Math.random()).slice(0, 10);
-    res.json(shuffled);
+    const num = parseInt(req.query.num) || 10;
+
+    const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+    const selected = shuffled.slice(0, num);
+
+    res.json(selected);
   });
 });
-
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
+
 
 app.listen(port, () => {
   console.log(`✅ Server running on http://localhost:${port}`);
