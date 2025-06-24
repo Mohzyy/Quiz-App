@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Results</title>
+  <link rel="stylesheet" href="quizstyle.css">
+</head>
+<body>
+  <h1>Your Score:</h1>
+  <div id="score"></div>
+  <button onclick="restart()">Play Again</button>
+  <script>
+    const score = localStorage.getItem("quizScore");
+    document.getElementById("score").textContent = score + "/10";
+
+    function restart() {
+      window.location.href = "/index.html";
+    }
+  </script>
+</body>
+</html>
